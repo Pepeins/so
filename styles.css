@@ -7,6 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: black;
+    font-family: 'Pacifico', cursive;
 }
 
 canvas {
@@ -15,16 +16,27 @@ canvas {
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .text-container {
     position: absolute;
     text-align: center;
-    font-size: 28px;
-    font-family: "Arial", sans-serif;
+    z-index: 2;
+}
+
+.love-text {
+    font-size: 48px;
     color: white;
     text-shadow: 0 0 15px rgba(255, 0, 255, 0.8), 0 0 30px rgba(255, 0, 255, 0.6);
     animation: fadeIn 2s ease-in-out, glow 1.5s infinite alternate;
+}
+
+.sub-text {
+    font-size: 24px;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+    animation: fadeIn 3s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -35,4 +47,47 @@ canvas {
 @keyframes glow {
     0% { text-shadow: 0 0 15px rgba(255, 0, 255, 0.8); }
     100% { text-shadow: 0 0 40px rgba(255, 0, 255, 1); }
+}
+
+.fireworks-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ff4e50;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff4e50, 0 0 20px #ff4e50, 0 0 30px #ff4e50;
+    animation: explode 1s ease-out infinite;
+}
+
+@keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+#musicButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff4e50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 4;
+}
+
+#musicButton:hover {
+    background-color: #fc913a;
 }
