@@ -1,97 +1,102 @@
-const canvas = document.getElementById("heartCanvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const hearts = [];
-const heartColors = ["#ff4e50", "#fc913a", "#f9d62e", "#eae374", "#e2f3c4"];
-const maxHearts = 500;
-
-class Heart {
-    constructor(x, y, size, speed, opacity, color) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.speed = speed;
-        this.opacity = opacity;
-        this.color = color;
-        this.angle = Math.random() * Math.PI * 2;
-        this.rotation = Math.random() * 360;
+const imagenesPredefinidas = [
+    {
+        url: "https://media.discordapp.net/attachments/1260633531542012025/1345559398805672006/image.png?ex=67c4fd57&is=67c3abd7&hm=039e5649f82c52437e955023845d5a97eb25901be022ded6b88f1975b3517a34&=&format=webp&quality=lossless&width=523&height=480",
+        mensaje: "Pequeño cachondo anda suelto por Cordoba!!! Tengan cuidado, se hace pasar por pobre pero es para violar a la gente muchas bendiciones familias y tengan cuidado",
+        titulo: "Pequeño violin suelto!!!"
+    },
+    {
+        url: "https://media.discordapp.net/attachments/1326721773923991622/1345564543597674546/IMG-20240829-WA02592.jpg?ex=67c50222&is=67c3b0a2&hm=835ff19be560a167e20885ec4f3529ec2290dda0b7e6a6b85d26a4f46ce288aa&=&format=webp&width=269&height=480",
+        mensaje: "Pequeño cachondo suelto por yapeyucity en busca de sexo",
+        titulo: "Pequeño cachondo"
+    },
+    {
+        url: "https://media.discordapp.net/attachments/1326721773923991622/1345564543211933708/IMG-20241124-WA01593.jpg?ex=67c50222&is=67c3b0a2&hm=c2384d2b58250a26805dcc5d409d93bcabd78ae58d97b29c0a5281af38a57996&=&format=webp&width=270&height=480",
+        mensaje: "No se olviden que la chispa es una sola",
+        titulo: "La chispa"
     }
+];
 
-    update() {
-        this.y -= this.speed;
-        this.x += Math.sin(this.angle) * 0.5;
-        this.opacity -= 0.002;
-        this.rotation += 0.5;
-    }
-
-    draw() {
-        ctx.save();
-        ctx.globalAlpha = this.opacity;
-        ctx.translate(this.x, this.y);
-        ctx.rotate((this.rotation * Math.PI) / 180);
-        ctx.font = `${this.size}px Arial`;
-        ctx.fillStyle = this.color;
-        ctx.shadowColor = this.color;
-        ctx.shadowBlur = 15;
-        ctx.fillText("??", -this.size / 2, this.size / 2);
-        ctx.restore();
-    }
-}
-
-function createHeart(x = Math.random() * canvas.width, y = canvas.height + 20) {
-    if (hearts.length >= maxHearts) return; 
-    const size = Math.random() * 20 + 15;
-    const speed = Math.random() * 2 + 1;
-    const opacity = Math.random() * 0.8 + 0.2;
-    const color = heartColors[Math.floor(Math.random() * heartColors.length)];
-    
-    hearts.push(new Heart(x, y, size, speed, opacity, color));
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    hearts.forEach((heart, index) => {
-        heart.update();
-        heart.draw();
-        if (heart.opacity <= 0 || heart.y + heart.size < 0) {
-            hearts.splice(index, 1);
-        }
+document.addEventListener("DOMContentLoaded", function() {
+    imagenesPredefinidas.forEach(img => {
+        crearElementoImagen(img.url, img.mensaje, img.titulo);
     });
+});
 
-    requestAnimationFrame(animate);
+function crearElementoImagen(url, mensaje, titulo) {
+    const galeria = document.getElementById("galeria");
+    
+    const contenedor = document.createElement("div");
+    contenedor.className = "imagen-contenedor";
+    
+    const imagen = document.createElement("img");
+    imagen.src = url;
+    imagen.alt = "Imagen troll";
+    imagen.className = "imagen";
+    
+    imagen.onerror = function() {
+        alert("No se pudo cargar la imagen. Verifica la URL.");
+        contenedor.remove();
+    };
+    
+    const mensajeDiv = document.createElement("div");
+    mensajeDiv.className = "mensaje-troll";
+
+    const tituloEl = document.createElement("h3");
+    tituloEl.textContent = titulo || "XDDD";
+    
+    const mensajeP = document.createElement("p");
+    mensajeP.textContent = mensaje || "Una imagen vale mas que mil palabras";
+    
+    mensajeDiv.appendChild(tituloEl);
+    mensajeDiv.appendChild(mensajeP);
+    
+    const btnEliminar = document.createElement("button");
+    btnEliminar.className = "eliminar-btn";
+    btnEliminar.innerHTML = "×";
+    btnEliminar.title = "Eliminar imagen";
+    btnEliminar.onclick = function() {
+        galeria.removeChild(contenedor);
+    };
+    
+    contenedor.appendChild(imagen);
+    contenedor.appendChild(mensajeDiv);
+    contenedor.appendChild(btnEliminar);
+    galeria.appendChild(contenedor);
 }
 
-setInterval(createHeart, 100);
+function agregarImagenPersonalizada() {
+    const url = document.getElementById("imageURL").value.trim();
+    
+    if (url) {
+        const mensajesTroll = [
+            "nico gay",
+            "marcela putita",
+            "nico",
+            "test",
+            "h"
+        ];
+        
+        const titulosTroll = [
+            "Un gay captado en camara",
+            "Marcela flores muños analia",
+            "XD",
+            "Nico gat",
+            "Efrainsito flores"
+        ];
+        
+        const mensajeRandom = mensajesTroll[Math.floor(Math.random() * mensajesTroll.length)];
+        const tituloRandom = titulosTroll[Math.floor(Math.random() * titulosTroll.length)];
+        
+        crearElementoImagen(url, mensajeRandom, tituloRandom);
+        
+        document.getElementById("imageURL").value = "";
+    } else {
+        alert("Por favor, ingresa una URL valida.");
+    }
+}
 
-document.addEventListener("click", (event) => {
-    for (let i = 0; i < 10; i++) {  
-        let offsetX = Math.random() * 40 - 20;
-        let offsetY = Math.random() * 40 - 20;
-        createHeart(event.clientX + offsetX, event.clientY + offsetY);
+document.getElementById("imageURL").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        agregarImagenPersonalizada();
     }
 });
-
-window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
-
-const fireworksContainer = document.querySelector(".fireworks-container");
-
-function createFirework() {
-    const firework = document.createElement("div");
-    firework.classList.add("firework");
-    firework.style.left = `${Math.random() * 100}vw`;
-    firework.style.animationDuration = `${Math.random() * 2 + 1}s`;
-    fireworksContainer.appendChild(firework);
-
-    setTimeout(() => {
-        firework.remove();
-    }, 3000);
-}
-
-setInterval(createFirework, 500);
